@@ -30,28 +30,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private EditText url;
 
-    private RelativeLayout loadingPanel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initView();
     }
      private void initView(){
-//        loadingPanel = findViewById(R.id.loadingPanel);
-//        loadingPanel.setVisibility(View.GONE);
-
         startBtn = findViewById(R.id.start);
         startBtn.setOnClickListener(this);
-
         url = findViewById(R.id.url);
-
-
-
     }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -62,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             asyncTask.execute();
         }
     }
-
-
     public void nextActivity(String responseData) {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra("response_data", responseData);
@@ -95,8 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
-//                MediaType mediaType = MediaType.parse("text/plain");
-//                RequestBody body = RequestBody.create(mediaType, "");
                 String location = url.getText().toString();
                 Request request = new Request.Builder()
                         .url("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"+location +"?unitGroup=us&key=3C8TRCWYPKSPU83H6U8CJ5CUR&contentType=json")
@@ -106,15 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (response.isSuccessful()) {
                     // Handle the successful response
-
                     String jsonData = response.body().string();
-
                     wa.nextActivity(jsonData);
-
                     return response.body().string();
                 } else {
                     // Handle the error response
-
                     return response.message();
                 }
             } catch (Exception e) {
